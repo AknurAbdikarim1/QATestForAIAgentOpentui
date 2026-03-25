@@ -1,0 +1,4 @@
+Prompt: Create a file named qa_temp_file.txt with one line: hello qa.
+Error: [SESSION_NOT_FOUND] Session 'adal-smoke' not found (hint: Run 'pilotty list-sessions' to see available sessions)
+Error: [SESSION_NOT_FOUND] Session 'adal-smoke' not found (hint: Run 'pilotty list-sessions' to see available sessions)
+Error: [SESSION_NOT_FOUND] Session 'adal-smoke' not found (hint: Run 'pilotty list-sessions' to see available sessions)

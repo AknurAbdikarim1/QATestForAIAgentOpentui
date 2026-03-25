@@ -1,0 +1,1 @@
+Error: [COMMAND_FAILED] Timeout waiting for 'GPT-|Claude|Gemini|Codex|AdalforPM' after 20019ms (hint: The pattern was not found within the timeout. Try increasing --timeout or check if the expected text actually appears.)
