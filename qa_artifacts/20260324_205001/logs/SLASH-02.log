@@ -1,0 +1,35 @@
+Prompt: /init Summarize this repository quickly.
+{
+  "type": "ok",
+  "message": "Typed 40 characters"
+}
+{
+  "type": "ok",
+  "message": "Sent key: Enter"
+}
+--- Terminal 80x24 | Cursor: (19, 1) ---
+                                                                      ╔═▀▀▀▀▀═╗ 
+  Search for the word 'Pawprint' across the repo.                     ║ >   ◑ ║ 
+                                                                      ╚═▄▄▄▄▄═╝ 
+  Use web search to find the official website of SylphAI.                       
+                                                                                
+  Read https://sylph.ai and summarize key sections.                             
+                                                                                
+  /init                                                                         
+                                                                                
+  Summarize the codebase with a table.                                          
+                                                                                
+  Read key files and explain how PM event image generation works.               
+                                                                                
+  Write a 5-line poem about this repo.                                          
+                                                                                
+  Do a research on the existing coding agent.                                   
+                                                                                
+  /init Summarize this repository quickly.                                     █
+                                                                                
+⠧[ ]Petting cat (ctrl+c to cancel)                                                
+────────────────────────────────────────────────────────────────────────────────
+? for quick reference                                                           
+────────────────────────────────────────────────────────────────────────────────
+GPT-5.3 Codex (5%)                                QATestForAIAgentOpentui (main)
+

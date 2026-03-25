@@ -1,0 +1,13 @@
+{
+  "type": "ok",
+  "message": "Typed 5 characters"
+}
+{
+  "type": "ok",
+  "message": "Sent key: Enter"
+}
+Session still alive after /quit. Sending extra Enter for possible confirmation.
+{
+  "type": "ok",
+  "message": "Sent key: Enter"
+}

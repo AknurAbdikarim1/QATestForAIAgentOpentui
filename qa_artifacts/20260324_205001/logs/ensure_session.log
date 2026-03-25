@@ -1,0 +1,7 @@
+Session missing before 'AUTH-03-retry', relaunching.
+{
+  "type": "session_created",
+  "session_id": "4a8db67b-2847-4837-a311-7517efb44c28",
+  "message": "Session created successfully"
+}
+Error: [COMMAND_FAILED] Timeout waiting for 'GPT-|Claude|Gemini|Codex|AdalforPM|\? for quick reference' after 20041ms (hint: The pattern was not found within the timeout. Try increasing --timeout or check if the expected text actually appears.)

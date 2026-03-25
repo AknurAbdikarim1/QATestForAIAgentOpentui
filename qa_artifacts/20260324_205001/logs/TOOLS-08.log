@@ -1,0 +1,35 @@
+Prompt: Read https://sylph.ai and summarize key sections.
+{
+  "type": "ok",
+  "message": "Typed 49 characters"
+}
+{
+  "type": "ok",
+  "message": "Sent key: Enter"
+}
+--- Terminal 80x24 | Cursor: (19, 1) ---
+  Run a shell command to list files matching *.md.                    ╔═▀▀▀▀▀═╗ 
+                                                                      ║ >   ◑ ║ 
+✔ Read (qa_temp_file.txt)                                             ╚═▄▄▄▄▄═╝ 
+⎿ Lines 1-2 (2 total)                                                           
+                                                                                
+◑ qa_temp_file.txt already has the requested second line (done), so             
+  listing markdown files now.                                                   
+                                                                                
+  Find files by name containing conference.                                     
+                                                                                
+  Search for the word 'Pawprint' across the repo.                               
+                                                                                
+  Use web search to find the official website of SylphAI.                       
+                                                                                
+  Read https://sylph.ai and summarize key sections.                             
+                                                                                
+✔ Bash (ls *.md 2>/dev/null || true) timeout: 10m                              █
+⎿ README.md                                                                    █
+                                                                                
+⠙[ ]Converting coffee (ctrl+c to cancel)                                          
+────────────────────────────────────────────────────────────────────────────────
+? for quick reference                                                           
+────────────────────────────────────────────────────────────────────────────────
+GPT-5.3 Codex (5%)                                QATestForAIAgentOpentui (main)
+

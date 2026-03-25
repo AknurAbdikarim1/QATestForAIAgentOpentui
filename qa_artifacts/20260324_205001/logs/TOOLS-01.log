@@ -1,0 +1,35 @@
+Prompt: Read README.md and summarize it in 3 bullet points.
+{
+  "type": "ok",
+  "message": "Typed 51 characters"
+}
+{
+  "type": "ok",
+  "message": "Sent key: Enter"
+}
+--- Terminal 80x24 | Cursor: (23, 80) ---
+                                                                      ╔═▀▀▀▀▀═╗█
+                                                                      ║ >   ◑ ║█
+                                                                      ╚═▄▄▄▄▄═╝█
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                                
+                                                                                
+────────────────────────────────────────────────────────────────────────────────
+? for quick reference                                                           
+────────────────────────────────────────────────────────────────────────────────
+GPT-5.3 Codex (0%)                                QATestForAIAgentOpentui (main)[_]
+

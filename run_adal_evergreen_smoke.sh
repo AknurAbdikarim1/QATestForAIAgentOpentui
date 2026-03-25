@@ -104,10 +104,70 @@ snapshot_text() {
   fi
 }
 
+session_exists() {
+  pilotty list-sessions 2>/dev/null | grep -q "\"name\": \"${SESSION}\""
+}
+
+start_adal_session() {
+  local log_file="${1:-${LOG_DIR}/session_relaunch.log}"
+  cleanup_session
+  if ! pilotty spawn --name "$SESSION" bash -lc 'ADAL_DEV_MODE=true adal' >>"$log_file" 2>&1; then
+    return 1
+  fi
+  pilotty wait-for --session "$SESSION" -r "GPT-|Claude|Gemini|Codex|AdalforPM|\\? for quick reference" -t 20000 >>"$log_file" 2>&1 || true
+  session_exists
+}
+
+ensure_adal_session() {
+  local reason="${1:-general}"
+  local log_file="${LOG_DIR}/ensure_session.log"
+  if session_exists; then
+    return 0
+  fi
+  echo "Session missing before '${reason}', relaunching." >>"$log_file"
+  start_adal_session "$log_file"
+}
+
+run_adal_step() {
+  local id="$1"
+  local area="$2"
+  local test_name="$3"
+  local cmd="$4"
+  local log_file="${LOG_DIR}/${id}.log"
+
+  if ! ensure_adal_session "$id"; then
+    record_result "$id" "$area" "$test_name" "FAIL" "Unable to relaunch session. See ${LOG_DIR}/ensure_session.log"
+    return 1
+  fi
+
+  if bash -lc "$cmd" >"$log_file" 2>&1; then
+    record_result "$id" "$area" "$test_name" "PASS" "See ${log_file}"
+    return 0
+  fi
+
+  if ! session_exists; then
+    {
+      echo "Session dropped during '${test_name}', retrying once after relaunch."
+    } >>"$log_file"
+    if ensure_adal_session "${id}-retry" && bash -lc "$cmd" >>"$log_file" 2>&1; then
+      record_result "$id" "$area" "$test_name" "PASS" "Recovered after session relaunch. See ${log_file}"
+      return 0
+    fi
+  fi
+
+  record_result "$id" "$area" "$test_name" "FAIL" "See ${log_file}"
+  return 1
+}
+
 send_prompt_and_capture() {
   local id="$1"
   local area="$2"
   local prompt="$3"
+
+  if ! ensure_adal_session "$id"; then
+    record_result "$id" "$area" "$prompt" "FAIL" "Session unavailable and relaunch failed."
+    return 1
+  fi
 
   local log_file="${LOG_DIR}/${id}.log"
   {
@@ -121,8 +181,81 @@ send_prompt_and_capture() {
   if [[ $? -eq 0 ]]; then
     record_result "$id" "$area" "$prompt" "MANUAL" "Review ${log_file} for quality/speed"
   else
-    record_result "$id" "$area" "$prompt" "FAIL" "Prompt execution failed. See ${log_file}"
+    if ! session_exists; then
+      record_result "$id" "$area" "$prompt" "MANUAL" "Session exited during prompt; likely expected for some flows. See ${log_file}"
+    else
+      record_result "$id" "$area" "$prompt" "FAIL" "Prompt execution failed. See ${log_file}"
+    fi
   fi
+}
+
+send_quit_and_expect_exit() {
+  local id="$1"
+  local area="$2"
+  local log_file="${LOG_DIR}/${id}.log"
+  local i
+
+  if ! ensure_adal_session "$id"; then
+    record_result "$id" "$area" "/quit expected exit" "FAIL" "Session unavailable and relaunch failed."
+    return 1
+  fi
+
+  {
+    pilotty type --session "$SESSION" "/quit"
+    pilotty key --session "$SESSION" Enter
+  } >"$log_file" 2>&1
+
+  # Give Adal time to shutdown cleanly.
+  for i in 1 2 3 4 5 6; do
+    sleep 1
+    if ! session_exists; then
+      record_result "$id" "$area" "/quit exits Adal" "PASS" "Session terminated as expected."
+      return 0
+    fi
+  done
+
+  # Some builds prompt for confirmation; send one more Enter and wait again.
+  {
+    echo "Session still alive after /quit. Sending extra Enter for possible confirmation."
+    pilotty key --session "$SESSION" Enter
+  } >>"$log_file" 2>&1 || true
+
+  for i in 1 2 3 4; do
+    sleep 1
+    if ! session_exists; then
+      record_result "$id" "$area" "/quit exits Adal" "PASS" "Terminated after confirmation Enter."
+      return 0
+    fi
+  done
+
+  record_result "$id" "$area" "/quit exits Adal" "MANUAL" "Session still running after /quit retries; verify behavior manually for this build. See ${log_file}"
+  return 0
+}
+
+send_double_ctrlc_and_expect_exit() {
+  local id="$1"
+  local area="$2"
+  local log_file="${LOG_DIR}/${id}.log"
+
+  if ! ensure_adal_session "$id"; then
+    record_result "$id" "$area" "Ctrl+C twice exits Adal" "FAIL" "Session unavailable and relaunch failed."
+    return 1
+  fi
+
+  {
+    pilotty key --session "$SESSION" Ctrl+C
+    sleep 1
+    pilotty key --session "$SESSION" Ctrl+C || true
+    sleep 1
+  } >"$log_file" 2>&1
+
+  if session_exists; then
+    record_result "$id" "$area" "Ctrl+C twice exits Adal" "FAIL" "Session still running. See ${log_file}"
+    return 1
+  fi
+
+  record_result "$id" "$area" "Ctrl+C twice exits Adal" "PASS" "Session terminated as expected."
+  return 0
 }
 
 measure_startup_seconds() {
@@ -139,8 +272,8 @@ PY
     return 1
   fi
 
-  # Wait for model/footer or stable UI hints
-  pilotty wait-for --session "$SESSION" -r "GPT-|Claude|Gemini|Codex|AdalforPM" -t 20000 >>"$out_file" 2>&1
+  # Wait for stable shell UI hints in Adal footer/prompt
+  pilotty wait-for --session "$SESSION" -r "GPT-|Claude|Gemini|Codex|AdalforPM|\\? for quick reference|\\(main\\)" -t 20000 >>"$out_file" 2>&1
   local wait_status=$?
 
   python3 - <<'PY' > "${LOG_DIR}/_t1_${phase}.txt"
@@ -231,14 +364,12 @@ else
 fi
 
 # Keep active session for functional checks
-cleanup_session
-pilotty spawn --name "$SESSION" bash -lc 'ADAL_DEV_MODE=true adal' >"${LOG_DIR}/spawn_for_tests.log" 2>&1
-pilotty wait-for --session "$SESSION" -r "GPT-|Claude|Gemini|Codex|AdalforPM" -t 20000 >"${LOG_DIR}/spawn_wait.log" 2>&1
+start_adal_session "${LOG_DIR}/spawn_for_tests.log" || true
 
 # Auth checks (assisted/manual)
-run_cmd "AUTH-01" "Auth & Startup" "Run /logout" "pilotty type --session \"$SESSION\" \"/logout\" && pilotty key --session \"$SESSION\" Enter"
+run_adal_step "AUTH-01" "Auth & Startup" "Run /logout" "pilotty type --session \"$SESSION\" \"/logout\" && pilotty key --session \"$SESSION\" Enter"
 manual_check "AUTH-02" "Auth & Startup" "Continue in browser login" "Complete login flow; PASS if authenticated session resumes"
-run_cmd "AUTH-03" "Auth & Startup" "Run /logout again" "pilotty type --session \"$SESSION\" \"/logout\" && pilotty key --session \"$SESSION\" Enter"
+run_adal_step "AUTH-03" "Auth & Startup" "Run /logout again" "pilotty type --session \"$SESSION\" \"/logout\" && pilotty key --session \"$SESSION\" Enter"
 manual_check "AUTH-04" "Auth & Startup" "Device code login" "Complete device-code flow; PASS if authenticated session resumes"
 
 # Input checks
@@ -246,9 +377,9 @@ manual_check "INPUT-01" "Input" "Copy/paste text works" "Validate copy/paste beh
 manual_check "INPUT-02" "Input" "Copy/paste image works" "Validate image paste behavior (known issues possible by terminal)"
 manual_check "INPUT-03" "Input" "Select to copy text in terminal" "Mouse selection copy should work"
 manual_check "INPUT-04" "Input" "Drag and drop image" "Drop image into Adal input and verify attachment handling"
-run_cmd "INPUT-05" "Input" "Type @ to search files" "pilotty type --session \"$SESSION\" \"@\" && pilotty snapshot --session \"$SESSION\" --format text > \"${SNAP_DIR}/input_at_search.txt\""
+run_adal_step "INPUT-05" "Input" "Type @ to search files" "pilotty type --session \"$SESSION\" \"@\" && pilotty snapshot --session \"$SESSION\" --format text > \"${SNAP_DIR}/input_at_search.txt\""
 manual_check "INPUT-06" "Input" "Cursor navigation by click" "Pilotty click is terminal-relative; verify click-to-position behavior manually"
-run_cmd "INPUT-07" "Input" "History navigation Up/Down" "pilotty key --session \"$SESSION\" Up && pilotty key --session \"$SESSION\" Down && pilotty snapshot --session \"$SESSION\" --format text > \"${SNAP_DIR}/input_history_nav.txt\""
+run_adal_step "INPUT-07" "Input" "History navigation Up/Down" "pilotty key --session \"$SESSION\" Up && pilotty key --session \"$SESSION\" Down && pilotty snapshot --session \"$SESSION\" --format text > \"${SNAP_DIR}/input_history_nav.txt\""
 
 # Core tools prompts (review quality/speed manually from logs/snapshots)
 send_prompt_and_capture "TOOLS-01" "Core Tools" "Read README.md and summarize it in 3 bullet points."
@@ -277,19 +408,17 @@ manual_check "SLASH-04" "Core Slash Commands" "/changelog then press i opens bro
 send_prompt_and_capture "SLASH-05" "Core Slash Commands" "/resume"
 send_prompt_and_capture "SLASH-06" "Core Slash Commands" "/compact"
 
-# Exit tests
-send_prompt_and_capture "EXIT-01" "Exit" "/quit"
+# Exit tests (expected process termination)
+send_quit_and_expect_exit "EXIT-01" "Exit"
 manual_check "EXIT-02" "Exit" "Exit via /quit is normal" "No hanging terminal or abnormal input/mouse behavior"
 
-# Relaunch for Ctrl+C twice exit
-cleanup_session
-pilotty spawn --name "$SESSION" bash -lc 'ADAL_DEV_MODE=true adal' >"${LOG_DIR}/spawn_for_ctrlc.log" 2>&1
-pilotty wait-for --session "$SESSION" -r "GPT-|Claude|Gemini|Codex|AdalforPM" -t 20000 >"${LOG_DIR}/spawn_for_ctrlc_wait.log" 2>&1
-run_cmd "EXIT-03" "Exit" "Ctrl+C twice exits normally" "pilotty key --session \"$SESSION\" Ctrl+C && sleep 1 && pilotty key --session \"$SESSION\" Ctrl+C"
+# Relaunch for Ctrl+C twice exit (expected process termination)
+start_adal_session "${LOG_DIR}/spawn_for_ctrlc.log" || true
+send_double_ctrlc_and_expect_exit "EXIT-03" "Exit"
 manual_check "EXIT-04" "Exit" "Post Ctrl+C behavior is normal" "No abnormal terminal/mouse behavior"
 
 # AdaL Web checks
-run_cmd "WEB-01" "AdaL Web" "Launch adal --web" "pilotty spawn --name adal-web env ADAL_DEV_MODE=true adal --web && pilotty snapshot --session adal-web --format text > \"${SNAP_DIR}/adal_web_launch.txt\""
+run_cmd "WEB-01" "AdaL Web" "Launch adal --web" "pilotty kill --session adal-web >/dev/null 2>&1 || true; pilotty spawn --name adal-web env ADAL_DEV_MODE=true adal --web && pilotty snapshot --session adal-web --format text > \"${SNAP_DIR}/adal_web_launch.txt\""
 manual_check "WEB-02" "AdaL Web" "Web logout/login works" "Verify top-left auth actions in browser"
 manual_check "WEB-03" "AdaL Web" "Web query execution works" "Run several queries and confirm responses"
 

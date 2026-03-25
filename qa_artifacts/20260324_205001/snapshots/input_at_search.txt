@@ -1,0 +1,26 @@
+--- Terminal 80x24 | Cursor: (11, 30) ---
+ ╔═▀▀▀▀▀═╗    █▀▀█ █  █ █▀▀█ █                                                  
+v1.0.0-beta.11▀· ~/QATestForAIAgentOpentui                                      
+                                                                                
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                                                                              │
+│ Welcome to AdaL CLI                                                          │
+│                                                                              │
+│ Let's connect this CLI to your AdaL account.                                 │
+│                                                                              │
+│                                                                              │
+│                                                                              │
+│ Waiting for authentication..[ ]                                                │
+│                                                                              │
+│                                                                              │
+│                                                                              │
+│ If you're not signed in, you'll be asked to log in first.                    │
+│                                                                              │
+│ After that, we'll authenticate this CLI.                                     │
+│                                                                              │
+│                                                                              │
+│                                                                              │
+│ (Esc to cancel)                                                              │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+

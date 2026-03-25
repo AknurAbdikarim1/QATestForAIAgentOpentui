@@ -1,0 +1,35 @@
+Prompt: Find files by name containing conference.
+{
+  "type": "ok",
+  "message": "Typed 41 characters"
+}
+{
+  "type": "ok",
+  "message": "Sent key: Enter"
+}
+--- Terminal 80x24 | Cursor: (19, 1) ---
+                                                                      ╔═▀▀▀▀▀═╗█
+                                                                      ║ >   ◑ ║█
+                                                                      ╚═▄▄▄▄▄═╝█
+                                                                               █
+  Read README.md and summarize it in 3 bullet points.                          █
+                                                                               █
+◑ Reading README.md now, then summarizing it in exactly 3 bullets.             █
+                                                                               █
+  Create a file named qa_temp_file.txt with one line: hello qa.                █
+                                                                               █
+  Edit qa_temp_file.txt and append a second line: done.                        █
+                                                                               █
+✔ Read (README.md)                                                             █
+⎿ Lines 1-201 (201 total)                                                      █
+                                                                               █
+  Run a shell command to list files matching *.md.                             █
+                                                                               █
+  Find files by name containing conference.                                    █
+                                                                                
+⠋[ ]Pushing production (ctrl+c to cancel)                                         
+────────────────────────────────────────────────────────────────────────────────
+? for quick reference                                                           
+────────────────────────────────────────────────────────────────────────────────
+GPT-5.3 Codex (5%)                                QATestForAIAgentOpentui (main)
+

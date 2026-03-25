@@ -1,0 +1,10 @@
+Error: [SESSION_NOT_FOUND] Session 'adal-smoke' not found (hint: Run 'pilotty list-sessions' to see available sessions)
+Session dropped during 'Run /logout again', retrying once after relaunch.
+{
+  "type": "ok",
+  "message": "Typed 7 characters"
+}
+{
+  "type": "ok",
+  "message": "Sent key: Enter"
+}

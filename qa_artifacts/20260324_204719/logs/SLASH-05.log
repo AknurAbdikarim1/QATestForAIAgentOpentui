@@ -1,0 +1,35 @@
+Prompt: /resume
+{
+  "type": "ok",
+  "message": "Typed 7 characters"
+}
+{
+  "type": "ok",
+  "message": "Sent key: Enter"
+}
+--- Terminal 80x24 | Cursor: (19, 1) ---
+                                                                      ╔═▀▀▀▀▀═╗ 
+  Use web search to find the official website of SylphAI.             ║ >   ◑ ║ 
+                                                                      ╚═▄▄▄▄▄═╝ 
+  Read https://sylph.ai and summarize key sections.                             
+                                                                                
+  /init                                                                         
+                                                                                
+  Summarize the codebase with a table.                                          
+                                                                                
+  Read key files and explain how PM event image generation works.               
+                                                                                
+  Write a 5-line poem about this repo.                                          
+                                                                                
+  Do a research on the existing coding agent.                                   
+                                                                                
+  /init Summarize this repository quickly.                                      
+                                                                                
+  /changelog                                                                   ▄
+                                                                                
+⠧[ ]Tasting snozberries (ctrl+c to cancel)                                        
+────────────────────────────────────────────────────────────────────────────────
+? for quick reference                                                           
+────────────────────────────────────────────────────────────────────────────────
+GPT-5.3 Codex (6%)                                QATestForAIAgentOpentui (main)
+

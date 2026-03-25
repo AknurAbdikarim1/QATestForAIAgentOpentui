@@ -1,0 +1,11 @@
+{
+  "type": "session_created",
+  "session_id": "571208d1-432a-4176-9036-f6dc2d06e87d",
+  "message": "Session created successfully"
+}
+{
+  "type": "wait_for_result",
+  "found": true,
+  "matched_text": "? for quick reference",
+  "elapsed_ms": 2099
+}

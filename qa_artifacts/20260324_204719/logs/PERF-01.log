@@ -1,0 +1,35 @@
+Prompt: Summarize the codebase with a table.
+{
+  "type": "ok",
+  "message": "Typed 36 characters"
+}
+{
+  "type": "ok",
+  "message": "Sent key: Enter"
+}
+--- Terminal 80x24 | Cursor: (19, 1) ---
+⎿ Lines 1-2 (2 total)                                                 ╔═▀▀▀▀▀═╗ 
+                                                                      ║ >   ◑ ║ 
+◑ Running both checks now: listing *.md files via shell and searching ╚═▄▄▄▄▄═╝ 
+  filenames containing “conference”.                                            
+                                                                                
+  Search for the word 'Pawprint' across the repo.                               
+                                                                                
+  Use web search to find the official website of SylphAI.                       
+                                                                                
+  Read https://sylph.ai and summarize key sections.                             
+                                                                                
+✔ Bash (ls *.md) timeout: 10m                                                   
+⎿ README.md                                                                     
+                                                                                
+✔ Search ("**/*conference*")                                                    
+⎿ No files found.                                                               
+                                                                                
+  Summarize the codebase with a table.                                         ▄
+                                                                                
+⠼[ ]Loading wit (ctrl+c to cancel)                                                
+────────────────────────────────────────────────────────────────────────────────
+? for quick reference                                                           
+────────────────────────────────────────────────────────────────────────────────
+GPT-5.3 Codex (6%)                                QATestForAIAgentOpentui (main)
+

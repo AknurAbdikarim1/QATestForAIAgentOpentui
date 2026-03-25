@@ -1,0 +1,35 @@
+Prompt: Edit qa_temp_file.txt and append a second line: done.
+{
+  "type": "ok",
+  "message": "Typed 53 characters"
+}
+{
+  "type": "ok",
+  "message": "Sent key: Enter"
+}
+--- Terminal 80x24 | Cursor: (19, 1) ---
+                                                                      ╔═▀▀▀▀▀═╗█
+                                                                      ║ >   ◑ ║█
+                                                                      ╚═▄▄▄▄▄═╝█
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+                                                                               █
+  Create a file named qa_temp_file.txt with one line: hello qa.                █
+                                                                               █
+  Edit qa_temp_file.txt and append a second line: done.                        █
+                                                                                
+⠙[ ]Converting coffee (ctrl+c to cancel)                                          
+────────────────────────────────────────────────────────────────────────────────
+? for quick reference                                                           
+────────────────────────────────────────────────────────────────────────────────
+GPT-5.3 Codex (0%)                                QATestForAIAgentOpentui (main)
+

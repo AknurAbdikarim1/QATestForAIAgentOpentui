@@ -1,0 +1,35 @@
+Prompt: Write a 5-line poem about this repo.
+{
+  "type": "ok",
+  "message": "Typed 36 characters"
+}
+{
+  "type": "ok",
+  "message": "Sent key: Enter"
+}
+--- Terminal 80x24 | Cursor: (19, 1) ---
+  listing markdown files now.                                         ╔═▀▀▀▀▀═╗ 
+                                                                      ║ >   ◑ ║ 
+  Find files by name containing conference.                           ╚═▄▄▄▄▄═╝ 
+                                                                                
+  Search for the word 'Pawprint' across the repo.                               
+                                                                                
+  Use web search to find the official website of SylphAI.                       
+                                                                                
+  Read https://sylph.ai and summarize key sections.                             
+                                                                                
+✔ Bash (ls *.md 2>/dev/null || true) timeout: 10m                               
+⎿ README.md                                                                     
+                                                                                
+  Summarize the codebase with a table.                                          
+                                                                                
+  Read key files and explain how PM event image generation works.               
+                                                                                
+  Write a 5-line poem about this repo.                                         █
+                                                                                
+⠏[ ]Petting cat (ctrl+c to cancel)                                                
+────────────────────────────────────────────────────────────────────────────────
+? for quick reference                                                           
+────────────────────────────────────────────────────────────────────────────────
+GPT-5.3 Codex (5%)                                QATestForAIAgentOpentui (main)
+
