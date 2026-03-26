@@ -1,4 +1,4 @@
---- Terminal 80x24 | Cursor: (19, 41) ---
+--- Terminal 80x24 | Cursor: (21, 21) ---
                                                                       ╔═▀▀▀▀▀═╗█
                                                                       ║ >   ◑ ║█
                                                                       ╚═▄▄▄▄▄═╝█
@@ -16,11 +16,11 @@
                                                                                █
                                                                                █
                                                                                █
-  Summarize the codebase with a table.                                         █
+                                                                               █
                                                                                 
-⠋ Compiling brilliance (ctrl+c to cancel)[ ]                                      
+                                                                                
 ────────────────────────────────────────────────────────────────────────────────
-? for quick reference                                                           
+@                    [ ]                                                          
 ────────────────────────────────────────────────────────────────────────────────
                                                                playwright (main)
 

@@ -1,0 +1,26 @@
+--- Terminal 80x24 | Cursor: (21, 26) ---
+  history smoke message two                                           ╔═▀▀▀▀▀═╗ 
+                                                                      ║ >   ◑ ║ 
+✔ Read (tests/evergreen.smoke.spec.ts)                                ╚═▄▄▄▄▄═╝ 
+⎿ Lines 148-175 (318 total)                                                     
+                                                                                
+◑ Searching for history smoke message two in the test file to confirm its       
+  exact usage.                                                                  
+                                                                                
+✔ Search ("history smoke message two" in tests/evergreen.smoke.spec.ts)         
+⎿ Found 2 lines.                                                                
+                                                                                
+◑ Found it in tests/evergreen.smoke.spec.ts:                                    
+                                                                                
+   - Line 145: await prompt(adapter, "history smoke message two");              
+   -Line 152: expect(upSnap.toLowerCase()).toContain("history smoke message     
+    two");                                                                      
+  So this smoke test sends message two, then verifies history recall with       
+  Up returns that exact message.                                               █
+                                                                                
+                                                                                
+────────────────────────────────────────────────────────────────────────────────
+? for quick reference     [ ]                                                     
+────────────────────────────────────────────────────────────────────────────────
+GPT-5.3 Codex (5%)                                             playwright (main)
+

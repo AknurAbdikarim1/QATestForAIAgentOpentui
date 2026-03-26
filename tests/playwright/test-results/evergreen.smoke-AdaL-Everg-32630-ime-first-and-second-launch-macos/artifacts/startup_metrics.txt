@@ -1,6 +1,6 @@
 project=macos
-first_ms=1674
-second_ms=1223
+first_ms=1692
+second_ms=1219
 ready_first=true
 ready_second=true
 target_ms=5000
