@@ -384,7 +384,9 @@ run_adal_step "INPUT-07" "Input" "History navigation Up/Down" "pilotty key --ses
 # Core tools prompts (review quality/speed manually from logs/snapshots)
 send_prompt_and_capture "TOOLS-01" "Core Tools" "Read README.md and summarize it in 3 bullet points."
 send_prompt_and_capture "TOOLS-02" "Core Tools" "Create a file named qa_temp_file.txt with one line: hello qa."
+run_cmd "TOOLS-02-VERIFY" "Core Tools" "Verify qa_temp_file.txt exists with expected first line" "test -f qa_temp_file.txt && grep -Fq 'hello qa' qa_temp_file.txt"
 send_prompt_and_capture "TOOLS-03" "Core Tools" "Edit qa_temp_file.txt and append a second line: done."
+run_cmd "TOOLS-03-VERIFY" "Core Tools" "Verify qa_temp_file.txt includes appended second line" "test -f qa_temp_file.txt && grep -Fxq 'done.' qa_temp_file.txt"
 send_prompt_and_capture "TOOLS-04" "Core Tools" "Run a shell command to list files matching *.md."
 send_prompt_and_capture "TOOLS-05" "Core Tools" "Find files by name containing conference."
 send_prompt_and_capture "TOOLS-06" "Core Tools" "Search for the word 'Pawprint' across the repo."

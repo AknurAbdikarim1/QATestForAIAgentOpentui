@@ -1,0 +1,6 @@
+project=macos
+first_ms=1674
+second_ms=1223
+ready_first=true
+ready_second=true
+target_ms=5000
